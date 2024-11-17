@@ -9,3 +9,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 Route::post('posts', [PostController::class, 'store'])->name('posts.create');
+Route::get('toggleLike/{post}', [PostController::class, 'toggleLike'])->name('posts.toggleLike');

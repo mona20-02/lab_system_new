@@ -53,7 +53,16 @@
                 </div>
 
                 <div class="mx-2 my-1">
-                    <button type="button" class="btn btn-sm btn-outline-primary">Like</button>
+                    <form action="{{ route('posts.toggleLike', $post) }}">
+                        @csrf
+                        @method('POST')
+                        <button type="submit" class="btn btn-sm btn-outline-primary">
+                            <span>
+                                {{ $post->post_likes->contains('user_id', auth()->user()->id) ? 'Unlike' : 'Like' }}
+                            </span>
+                            <span class="ms-1 badge text-bg-secondary">{{ $post->post_likes->count() }}</span>
+                        </button>
+                    </form>
                 </div>
             </div>
             @endforeach
