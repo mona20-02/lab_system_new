@@ -42,9 +42,51 @@
                         </div>
 
                         <div class="col ">
-                            <div class="text-end">
-                                {{ $post->created_at->diffForHumans() }}
+
+                            <div class="row">
+
+
+                                <div class="text-end d-flex justify-end">
+                                    <!-- This is the time slot of the post -->
+                                    <div class="col">
+                                        <div class="text-end">
+                                            {{ $post->created_at->diffForHumans() }}
+                                        </div>
+                                    </div>
+                                    <!-- This is the END of time slot of the post -->
+
+
+                                    <!-- This is the time slot of the dropdown button -->
+                                    <div class="col">
+
+                                        <div class="dropdown">
+                                            <a class="btn btn-sm btn-secondary dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Options
+                                            </a>
+
+                                            <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="{{ route('posts.edit', $post) }}" role="button">Edit</a></li>
+
+                                                @can('delete', $post)
+                                                    <form action="{{ route('posts.delete', $post) }}" method="POST">
+                                                        @method('DELETE')
+                                                        @csrf
+
+                                                        <li><button class="dropdown-item" type="submit"><span class="text-danger">Delete</span></button></li>
+
+                                                    </form>
+                                                @endcan
+
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- This is the time END slot of the dropdown button -->
+                                </div>
+
+
                             </div>
+
                         </div>
                     </div>
 
