@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
     /**
@@ -47,7 +45,36 @@ class User extends Authenticatable
         ];
     }
 
-    public function posts() {
+    public function posts()
+    {
         return $this->hasMany(Post::class);
     }
+    public function friends()
+    {
+        return $this->hasMany(Friend::class, 'user_id');
+    }
+
+    public function friendRequests()
+    {
+        return $this->hasMany(Friend::class, 'friend_id');
+    }
+
+    public function isFriend(User $user)
+    {
+        return $this->friends()->where('friend_id', $user->id)->where('accepted', true)->exists() ||
+               $user->friends()->where('friend_id', $this->id)->where('accepted', true)->exists();
+    }
+    public function hasSentFriendRequestTo(User $user)
+{
+    return Friend::where('user_id', auth()->id())
+        ->where('friend_id', $user->id)
+        ->exists();
+}
+public function hasPendingFriendRequestFrom(User $user)
+{
+    return Friend::where('user_id', $user->id)
+        ->where('friend_id', auth()->id())
+        ->where('accepted', false)
+        ->exists();
+}
 }

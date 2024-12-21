@@ -22,6 +22,7 @@ class PostPolicy
     public function view(User $user, Post $post): bool
     {
         return true;
+        //return $user->id === $post->user_id || $user->isFriend($post->user);
     }
 
     /**
@@ -45,7 +46,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return !($post->id == $user->id);
+        return ($post->id == $user->id);
     }
 
     /**

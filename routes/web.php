@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -18,3 +19,11 @@ Route::group(['prefix' => 'posts', 'as' => 'posts.'], function () {
     Route::get('toggleLike/{post}', [PostController::class, 'toggleLike'])->name('toggleLike');
 
 });
+
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
+
+
+Route::post('/friend-request/{user}', [UserController::class, 'sendRequest'])->middleware('auth')->name('friend-request.send');
+Route::delete('/friend-request/{user}', [UserController::class, 'deleteRequest'])->name('friend-request.delete');
+Route::post('/friend-request/{user}/accept', [UserController::class, 'acceptRequest'])->name('friend-request.accept');
+Route::post('/friend-request/{user}/reject', [UserController::class, 'rejectRequest'])->name('friend-request.reject');

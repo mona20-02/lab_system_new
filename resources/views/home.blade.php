@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-
+ 
     <div class="row ">
 
         <div class="col col-4">
@@ -26,7 +26,7 @@
             </div>
 
         </div>
-
+        <a href="{{ route('users.index') }}" class="btn btn-sm btn-outline-secondary ms-2">See all users</a>
         <div class="col">
             @foreach ($posts as $post)
             <div class="card mb-3 border rounded shadow-sm bg-white">
