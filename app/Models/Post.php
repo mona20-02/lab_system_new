@@ -21,7 +21,9 @@ class Post extends Model
     public function user() {
         return $this->belongsTo(User::class);
     }
-    // public function isVisibleToUser(User $user): bool {
-    //     return $user->id === $this->user_id || $user->friends()->where('friend_id', $this->user_id)->where('accepted', true)->exists();
-    // }
+    public function isVisibleToUser(User $user): bool {
+        return $user->id === $this->user_id || 
+               $user->friends()->where('friend_id', $this->user_id)->where('accepted', true)->exists() ||
+               $this->user->friends()->where('friend_id', $user->id)->where('accepted', true)->exists();
+    }
 }

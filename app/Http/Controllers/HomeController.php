@@ -25,10 +25,13 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $user = auth()->user();
         $posts = Post::with('post_likes')
-            // ->whereHas('friends', callback: fn($query) => $query->where
-            ->orderBy('created_at', 'desc')
-            ->get();
+            ->get()
+            ->filter(function ($post) use ($user) {
+                return $post->isVisibleToUser($user);
+            })
+            ->sortByDesc('created_at');
 
         return view('home', compact('posts'));
     }
